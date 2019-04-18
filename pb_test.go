@@ -1,9 +1,9 @@
-package pb
+package pbx
 
 import (
 	"testing"
 
-	"github.com/libgo/pb/internal"
+	"github.com/libgo/pbx/internal"
 )
 
 func TestMarshal(t *testing.T) {

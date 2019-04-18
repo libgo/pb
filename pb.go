@@ -1,4 +1,4 @@
-package pb
+package pbx
 
 import (
 	"bytes"
@@ -15,7 +15,7 @@ import (
 var (
 	pbm = &jsonpb.Marshaler{
 		EmitDefaults: true,
-		OrigName:     true,
+		OrigName:     false, // using proto.json name, this can be changed using [json_name = "wanted"];
 	}
 
 	pbu = &jsonpb.Unmarshaler{
@@ -45,7 +45,18 @@ func MustMarshal(pb Message) []byte {
 	return data
 }
 
-// Unmarshal unmarshals a JSON object stream into a protocol buffer.
+// MarshalToString converts a protocol buffer object to JSON string.
+func MarshalToString(pb Message) (string, error) {
+	return pbm.MarshalToString(pb)
+}
+
+// MustMarshalToString convert proto to JSON string without error.
+func MustMarshalToString(pb Message) string {
+	s, _ := MarshalToString(pb)
+	return s
+}
+
+// Unmarshal unmarshals a JSON object stream/bytes/string into a protocol buffer.
 // caution: should handle null manually
 func Unmarshal(in interface{}, pb Message) error {
 	var reader io.Reader
